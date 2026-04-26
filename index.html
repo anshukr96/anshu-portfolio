@@ -1238,21 +1238,28 @@ nav.dark-mode .nav-ham span{background:#F5F5F7}
 @media(max-width:780px){
   nav .nav-links{display:none}
   .nav-ham{display:flex}
-  .hero-stats{grid-template-columns:repeat(2,1fr);max-width:100%}
-  .num-grid{grid-template-columns:1fr 1fr}
+  /* fill full width — max-width alone doesn't stretch a flex child */
+  .hero-stats{grid-template-columns:repeat(2,1fr);width:100%;max-width:100%}
+  .num-grid{grid-template-columns:1fr 1fr;width:100%}
   .work-grid{grid-template-columns:1fr}
   .work-card.span2{grid-column:span 1}
   .wc-pso{grid-template-columns:1fr;gap:20px}
   .exp-grid{grid-template-columns:1fr}
   .about-inner{grid-template-columns:1fr;gap:48px}
   .oss-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
   .spot-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  /* reduce section horizontal padding on tablet/mobile */
+  #hero{padding-left:20px;padding-right:20px}
+  #work,#ai-native,#numbers,#thinking,#experience,#social-proof,#about,#opensource,#contact{
+    padding-left:20px;padding-right:20px;
+  }
 }
 
 /* ══════════ PHONE (≤480px) ══════════ */
 @media(max-width:480px){
   .num-grid{grid-template-columns:1fr;border-radius:14px}
-  .hero-pills-row{justify-content:center}
+  .hero-pills-row{justify-content:center;width:100%}
   .work-card{padding:32px 22px 28px}
   .ai-main-card{padding:28px 20px 24px}
   .agent-flow{overflow-x:auto;-webkit-overflow-scrolling:touch}
