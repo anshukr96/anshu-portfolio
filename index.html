@@ -1237,7 +1237,8 @@ nav.dark-mode .nav-ham span{background:#F5F5F7}
 /* ═══════════════════════ RESPONSIVE ═══════════════════════ */
 @media(max-width:780px){
   nav .nav-links{display:none}
-  .nav-ham{display:flex}
+  .nav-ham{display:flex;order:-1}  /* move hamburger to the left */
+  .nav-logo{order:1;margin-left:auto} /* push name to the right */
   /* fill full width — max-width alone doesn't stretch a flex child */
   .hero-stats{grid-template-columns:repeat(2,1fr);width:100%;max-width:100%}
   .num-grid{grid-template-columns:1fr 1fr;width:100%}
