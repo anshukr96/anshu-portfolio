@@ -809,6 +809,7 @@ nav.dark-mode .nav-links a:hover{color:#fff}
   padding:0 clamp(20px,5vw,60px);
   transition:transform .55s cubic-bezier(0.25,0.46,0.45,0.94);
   will-change:transform;
+  touch-action:pan-y;
 }
 
 /* cards */
@@ -2334,13 +2335,15 @@ if(statsEl) statsObs.observe(statsEl);
     if(!dragging) return;
     track.style.transform = `translateX(-${startOff-(e.clientX-startX)}px)`;
   });
-  track.addEventListener('pointerup', e => {
+  function endDrag(e){
     if(!dragging) return;
     dragging=false;
     const dx = e.clientX - startX;
     if(Math.abs(dx)>55){ dx<0 ? goTo(current+1) : goTo(current-1); }
     else goTo(current);
-  });
+  }
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
 
   // Keyboard
   window.addEventListener('keydown', e => {
