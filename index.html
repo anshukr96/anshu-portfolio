@@ -1139,8 +1139,105 @@ footer{
   body,a,button,.belief-card,.work-card,.exp-card,.oss-card,.ai-sub-card,.car-btn,.car-dot{cursor:auto!important}
 }
 
+/* ══════════ HAMBURGER BUTTON ══════════ */
+.nav-ham{
+  display:none;
+  flex-direction:column;justify-content:center;align-items:center;gap:5px;
+  width:36px;height:36px;padding:6px;
+  background:none;border:none;border-radius:8px;
+  flex-shrink:0;
+  transition:background .2s;
+}
+.nav-ham:hover{background:rgba(0,0,0,.06)}
+nav.dark-mode .nav-ham:hover{background:rgba(255,255,255,.08)}
+.nav-ham span{
+  display:block;width:20px;height:1.5px;
+  background:var(--ink);border-radius:2px;
+  transition:transform .35s var(--ease),opacity .25s;
+  transform-origin:center;
+}
+nav.dark-mode .nav-ham span{background:#F5F5F7}
+
+/* ══════════ MOBILE DRAWER ══════════ */
+.mob-overlay{
+  position:fixed;inset:0;z-index:298;
+  background:rgba(0,0,0,0);
+  pointer-events:none;
+  transition:background .35s ease;
+}
+.mob-overlay.open{background:rgba(0,0,0,.45);pointer-events:auto}
+
+.mob-drawer{
+  position:fixed;top:0;left:0;bottom:0;
+  width:min(290px,82vw);
+  z-index:299;
+  background:#fff;
+  box-shadow:20px 0 60px rgba(0,0,0,.15);
+  transform:translateX(-100%);
+  transition:transform .38s cubic-bezier(.25,.46,.45,.94);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.mob-drawer.open{transform:translateX(0)}
+
+.mob-drawer-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;height:56px;flex-shrink:0;
+  border-bottom:1px solid var(--line);
+}
+.mob-drawer-logo{
+  font-size:16px;font-weight:600;
+  color:var(--ink);text-decoration:none;letter-spacing:-.02em;
+}
+.mob-close{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--surface);border:none;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-2);font-size:18px;line-height:1;
+  transition:background .2s,color .2s;
+}
+.mob-close:hover{background:var(--line);color:var(--ink)}
+
+.mob-nav{list-style:none;padding:8px 0;flex:1;overflow-y:auto}
+.mob-nav li{
+  opacity:0;transform:translateX(-20px);
+  transition:opacity .3s ease,transform .3s ease;
+}
+.mob-drawer.open .mob-nav li:nth-child(1){opacity:1;transform:none;transition-delay:.07s}
+.mob-drawer.open .mob-nav li:nth-child(2){opacity:1;transform:none;transition-delay:.13s}
+.mob-drawer.open .mob-nav li:nth-child(3){opacity:1;transform:none;transition-delay:.19s}
+.mob-drawer.open .mob-nav li:nth-child(4){opacity:1;transform:none;transition-delay:.25s}
+.mob-drawer.open .mob-nav li:nth-child(5){opacity:1;transform:none;transition-delay:.31s}
+.mob-nav a{
+  display:flex;align-items:center;
+  padding:15px 24px;
+  font-size:16px;font-weight:500;
+  color:var(--ink-2);text-decoration:none;
+  letter-spacing:-.01em;
+  position:relative;
+  transition:color .2s,background .2s;
+}
+.mob-nav a:hover{color:var(--ink);background:var(--surface)}
+.mob-nav a.mob-active{
+  color:var(--blue);
+  background:rgba(0,113,227,.04);
+}
+.mob-nav a.mob-active::before{
+  content:'';
+  position:absolute;left:0;top:10px;bottom:10px;
+  width:3px;background:var(--blue);border-radius:0 3px 3px 0;
+}
+
+.mob-drawer-foot{
+  padding:16px 24px;border-top:1px solid var(--line);
+  font-size:11px;color:var(--ink-3);letter-spacing:.03em;
+  flex-shrink:0;
+}
+
 /* ═══════════════════════ RESPONSIVE ═══════════════════════ */
 @media(max-width:780px){
+  nav ul{display:none}
+  .nav-ham{display:flex}
   .hero-stats{grid-template-columns:repeat(2,1fr);max-width:100%}
   .num-grid{grid-template-columns:1fr 1fr}
   .work-grid{grid-template-columns:1fr}
@@ -1150,52 +1247,6 @@ footer{
   .about-inner{grid-template-columns:1fr;gap:48px}
   .oss-grid{grid-template-columns:1fr}
   .spot-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.06)}
-
-  /* ── horizontal tab strip ── */
-  .nav-links{
-    display:flex!important;
-    position:fixed;top:48px;left:0;right:0;z-index:199;
-    overflow-x:auto;overflow-y:hidden;
-    -webkit-overflow-scrolling:touch;
-    scrollbar-width:none;
-    gap:0;padding:0 8px;
-    height:40px;align-items:stretch;
-    background:rgba(251,251,253,.95);
-    backdrop-filter:saturate(180%) blur(20px);
-    -webkit-backdrop-filter:saturate(180%) blur(20px);
-    border-bottom:1px solid rgba(0,0,0,.08);
-    list-style:none;
-  }
-  .nav-links::-webkit-scrollbar{display:none}
-  .nav-links li{flex-shrink:0;display:flex;align-items:stretch}
-  .nav-links a{
-    display:inline-flex;align-items:center;
-    padding:0 14px;font-size:13px;font-weight:500;
-    white-space:nowrap;color:var(--ink-3);
-    position:relative;
-    transition:color .2s;
-  }
-  /* active underline indicator */
-  .nav-links a::after{
-    content:'';
-    position:absolute;bottom:0;left:14px;right:14px;
-    height:2px;border-radius:2px 2px 0 0;
-    background:var(--blue);
-    transform:scaleX(0);transform-origin:center;
-    transition:transform .3s var(--ease);
-  }
-  .nav-links a:hover{color:var(--ink)}
-  .nav-links a.active-link{color:var(--ink)}
-  .nav-links a.active-link::after{transform:scaleX(1)}
-
-  /* dark mode tab strip */
-  nav.dark-mode .nav-links{
-    background:rgba(0,0,0,.92);
-    border-color:rgba(255,255,255,.08);
-  }
-  nav.dark-mode .nav-links a{color:rgba(255,255,255,.4)}
-  nav.dark-mode .nav-links a:hover,
-  nav.dark-mode .nav-links a.active-link{color:#fff}
 }
 
 /* ══════════ PHONE (≤480px) ══════════ */
@@ -1269,7 +1320,27 @@ footer{
     <li><a href="#github-section">GitHub</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-ham" id="navHam" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE OVERLAY + DRAWER -->
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer" aria-hidden="true">
+  <div class="mob-drawer-head">
+    <a class="mob-drawer-logo" href="#hero">Anshu Dwivedi</a>
+    <button class="mob-close" id="mobClose" aria-label="Close menu">&#x2715;</button>
+  </div>
+  <ul class="mob-nav" id="mobNav">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#thinking">Principles</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#github-section">GitHub</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="mob-drawer-foot">Anshu Dwivedi · Senior Frontend Engineer</div>
+</div>
 
 <!-- ══════════ HERO ══════════ -->
 <section id="hero">
@@ -2021,7 +2092,7 @@ footer{
 })();
 
 /* ══════════ NAV SMOOTH SCROLL ══════════ */
-function navOffset(){ return window.innerWidth <= 780 ? 96 : 56; }
+function navOffset(){ return 56; }
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const id = a.getAttribute('href').slice(1);
@@ -2033,17 +2104,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 /* ══════════ NAV ACTIVE LINK ══════════ */
-const navLinks = [...document.querySelectorAll('.nav-links a')];
+const navLinks    = [...document.querySelectorAll('.nav-links a')];
+const mobNavLinks = [...document.querySelectorAll('.mob-nav a')];
 function updateActiveLink(){
   const y = window.scrollY + navOffset();
-  navLinks.forEach(a => {
-    const id = a.getAttribute('href').slice(1);
+  navLinks.forEach((a,i) => {
+    const id  = a.getAttribute('href').slice(1);
     const sec = document.getElementById(id);
     if(!sec) return;
-    const top = sec.offsetTop, bot = top + sec.offsetHeight;
-    const isActive = y >= top && y < bot;
-    a.classList.toggle('active-link', isActive);
-    if(isActive && window._scrollTabIntoView) window._scrollTabIntoView(a);
+    const active = y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight;
+    a.classList.toggle('active-link', active);
+    if(mobNavLinks[i]) mobNavLinks[i].classList.toggle('mob-active', active);
   });
 }
 window.addEventListener('scroll', updateActiveLink, {passive:true});
@@ -2252,24 +2323,36 @@ document.querySelectorAll('.section-title').forEach(el => {
   o.observe(el);
 });
 
-/* ══════════ TAB STRIP: SCROLL ACTIVE TAB INTO VIEW ══════════ */
+/* ══════════ MOBILE DRAWER ══════════ */
 (function(){
-  const strip = document.getElementById('navLinks');
-  if(!strip) return;
-  function scrollTabIntoView(a){
-    if(window.innerWidth > 780) return;
-    const stripW = strip.offsetWidth;
-    const aLeft  = a.offsetLeft;
-    const aRight = aLeft + a.offsetWidth;
-    const pad    = 16;
-    if(aLeft < strip.scrollLeft + pad){
-      strip.scrollTo({left: aLeft - pad, behavior:'smooth'});
-    } else if(aRight > strip.scrollLeft + stripW - pad){
-      strip.scrollTo({left: aRight - stripW + pad, behavior:'smooth'});
-    }
+  const ham     = document.getElementById('navHam');
+  const drawer  = document.getElementById('mobDrawer');
+  const overlay = document.getElementById('mobOverlay');
+  const closeBtn= document.getElementById('mobClose');
+  if(!ham || !drawer) return;
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    drawer.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
   }
-  // Expose so updateActiveLink can call it
-  window._scrollTabIntoView = scrollTabIntoView;
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    drawer.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+
+  ham.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeDrawer(); });
+
+  // Close + navigate on link click
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeDrawer);
+  });
 })();
 </script>
 </body>
